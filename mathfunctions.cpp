@@ -4,6 +4,24 @@
 const float pi{ 3.14159 };
 const float tau{ pi * 2.f };
 
+// 1D
+bool DoLinesOverlap(float StartA, float EndA, float StartB, float EndB) {
+	if (StartA < EndB && EndA > StartB) {
+		return true;
+	}
+	return false;
+}
+
+// 2D
+bool DoBoxesOverlap(Vector2 BoxPosA, Vector2 BoxSizeA, Vector2 BoxPosB, Vector2 BoxSizeB) {
+	if (DoLinesOverlap(BoxPosA.x - BoxSizeA.x / 2.f, BoxPosA.x + BoxSizeA.x / 2.f, BoxPosB.x - BoxSizeB.x / 2.f, BoxPosB.x + BoxSizeB.x / 2.f)) {
+		if (DoLinesOverlap(BoxPosA.y - BoxSizeA.y / 2.f, BoxPosA.y + BoxSizeA.y / 2.f, BoxPosB.y - BoxSizeB.y / 2.f, BoxPosB.y + BoxSizeB.y / 2.f)) {
+			return true;
+		}
+		return false;
+	}
+	return false;
+}
 Vector2 operator+(Vector2 lhs, Vector2 rhs) {
 	return Vector2{ lhs.x + rhs.x, lhs.y + rhs.y };
 }
@@ -95,6 +113,18 @@ int Min(int a, int b) {
 }
 
 // 3D
+bool DoCubesOverlap(Vector3 CubePosA, Vector3 CubeSizeA, Vector3 CubePosB, Vector3 CubeSizeB) {
+	if (DoLinesOverlap(CubePosA.x - CubeSizeA.x / 2.f, CubePosA.x + CubeSizeA.x / 2.f, CubePosB.x - CubeSizeB.x / 2.f, CubePosB.x + CubeSizeB.x / 2.f)) {
+		if (DoLinesOverlap(CubePosA.y - CubeSizeA.y / 2.f, CubePosA.y + CubeSizeA.y / 2.f, CubePosB.y - CubeSizeB.y / 2.f, CubePosB.y + CubeSizeB.y / 2.f)) {
+			if (DoLinesOverlap(CubePosA.z - CubeSizeA.z / 2.f, CubePosA.z + CubeSizeA.z / 2.f, CubePosB.z - CubeSizeB.z / 2.f, CubePosB.z + CubeSizeB.z / 2.f)) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	return false;
+}
 Vector3 operator+(Vector3 lhs, Vector3 rhs) {
 	return Vector3{ lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
 }

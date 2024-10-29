@@ -4,6 +4,11 @@
 extern const float pi;
 extern const float tau;
 
+// 1D
+bool DoLinesOverlap(float StartA, float EndA, float StartB, float EndB);
+
+// 2D
+bool DoBoxesOverlap(Vector2 BoxPosA, Vector2 BoxSizeA, Vector2 BoxPosB, Vector2 BoxSizeB); // Uses center for positions
 Vector2 operator+(Vector2 lhs, Vector2 rhs);
 Vector2 operator-(Vector2 lhs, Vector2 rhs);
 Vector2 operator*(Vector2 lhs, float rhs);
@@ -25,6 +30,7 @@ int Max(int a, int b);
 int Min(int a, int b);
 
 // 3D
+bool DoCubesOverlap(Vector3 CubePosA, Vector3 CubeSizeA, Vector3 CubePosB, Vector3 CubeSizeB); // Uses center for positions
 Vector3 operator+(Vector3 lhs, Vector3 rhs);
 Vector3 operator-(Vector3 lhs, Vector3 rhs);
 Vector3 operator*(Vector3 lhs, float rhs);

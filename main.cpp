@@ -18,27 +18,29 @@ void SpawnParticle(Vector3 Pos) {
 
 
 int main() {
-	InitWindow(WindowWidth, WindowHeight, "Test 30: CPU"); SetTargetFPS(60);
+	InitWindow(WindowWidth, WindowHeight, "Test 30: CPU"); SetTargetFPS(TargetFPS);
 
 	// Camera setup
 	Camera Cam{ 0 };
 	Cam.fovy = 90.f;
-	Cam.position = Vector3{ 0.f,1.f,-1.f };
+	Cam.position = Vector3{ 0.f,3.f,0.f };
 	Cam.projection = CAMERA_PERSPECTIVE;
 	Cam.target = Vector3{ 0.f,0.f,0.f };
 	Cam.up = Vector3{ 0.f,1.f,0.f };
 
 	// World setup
-	Entity E;
+	Entity E{ HasPos + HasHitbox };
+	BouncePad BP{ {0.f,-1.f,0.f},{10.f,1.f,10.f} };
 
 
 	while (!WindowShouldClose()) {
 		// Update
-		Cam.position.x = cos(GetTime() / -3.f) * 4.f;
-		Cam.position.z = sin(GetTime() / -3.f) * 4.f;
+		Cam.position.x = cos(GetTime() / -4.f) * 7.f;
+		Cam.position.z = sin(GetTime() / -4.f) * 7.f;
 
 		HandleOutOfBounds();
 		HandlePhysics();
+		HandleUpdates();
 		if (FramesPassed % 12 == 0) {
 			SpawnParticle(Vector3{});
 		}
@@ -49,15 +51,16 @@ int main() {
 
 
 		DrawGrid3D({ 0,-.5f,0 }, 10, 10);
-		for (int i = 0; i < Entities.size(); i++) {
-			if (Entities[i] == nullptr) {
-				continue;
-			}
-			Entities[i]->Draw();
-		}
+		HandleDrawing();
 
 
 		EndMode3D();
+		
+		// UI
+		DrawText(TextFormat("FPS: %i / %i", int(ceil(1.f / GetFrameTime())), TargetFPS), 5, 5, 18, WHITE);
+		DrawText(TextFormat("Entities: %i / %i", GetActiveEntities(), Entities.size()), 5, 23, 18, WHITE);
+
+
 		EndDrawing();
 		FramesPassed++;
 	}
